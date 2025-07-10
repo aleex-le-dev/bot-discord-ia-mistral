@@ -74,23 +74,20 @@ client.once("ready", () => {
 // Fonction pour appeler l'API Mistral avec personnalité
 function callMistralAPI(prompt) {
   return new Promise((resolve, reject) => {
-    let systemPrompt = "";
+    let systemPrompt = '';
     if (notionKnowledge) {
-      systemPrompt =
-        "Voici toute la base de connaissances à utiliser pour répondre à toutes les questions. Si la réponse n'est pas dans cette base, réponds uniquement \"Je ne sais pas.\". Donne une seule réponse, sans variantes, sans suggestions, sans reformulation, et n'invente rien. Réponds uniquement avec le texte exact du JSON." +
-        "\n" +
-        notionKnowledge;
+      systemPrompt = config.mistral.systemPrompt + '\n' + notionKnowledge;
     } else {
-      systemPrompt = "Tu ne sais rien.";
+      systemPrompt = 'Tu ne sais rien.';
     }
     const data = JSON.stringify({
       model: config.mistral.model,
       messages: [
-        { role: "system", content: systemPrompt },
-        { role: "user", content: prompt },
+        { role: 'system', content: systemPrompt },
+        { role: 'user', content: prompt }
       ],
       max_tokens: config.mistral.maxTokens,
-      temperature: config.mistral.temperature,
+      temperature: config.mistral.temperature
     });
 
     const options = {
