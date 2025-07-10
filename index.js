@@ -1,5 +1,13 @@
 require("dotenv").config();
-const { Client, GatewayIntentBits, EmbedBuilder } = require("discord.js");
+const {
+  Client,
+  GatewayIntentBits,
+  EmbedBuilder,
+  ActionRowBuilder,
+  ButtonBuilder,
+  ButtonStyle,
+  StringSelectMenuBuilder,
+} = require("discord.js");
 const https = require("https");
 const config = require("./config");
 const features = require("./features");
@@ -99,30 +107,175 @@ function createEmbed(title, description, color = 0x0099ff) {
     .setFooter({ text: "Bot IA Discord - Créé avec ❤️" });
 }
 
+// Fonction pour créer les boutons de personnalités
+function createPersonalityButtons() {
+  const row = new ActionRowBuilder().addComponents(
+    new ButtonBuilder()
+      .setCustomId("personality_default")
+      .setLabel("🤖 Normal")
+      .setStyle(ButtonStyle.Primary),
+    new ButtonBuilder()
+      .setCustomId("personality_humoriste")
+      .setLabel("🎭 Humoriste")
+      .setStyle(ButtonStyle.Secondary),
+    new ButtonBuilder()
+      .setCustomId("personality_philosophe")
+      .setLabel("💭 Philosophe")
+      .setStyle(ButtonStyle.Secondary),
+    new ButtonBuilder()
+      .setCustomId("personality_coach")
+      .setLabel("💪 Coach")
+      .setStyle(ButtonStyle.Success),
+    new ButtonBuilder()
+      .setCustomId("personality_scientifique")
+      .setLabel("🔬 Scientifique")
+      .setStyle(ButtonStyle.Danger)
+  );
+  return row;
+}
+
+// Fonction pour créer le menu des commandes
+function createCommandsMenu() {
+  const row = new ActionRowBuilder().addComponents(
+    new StringSelectMenuBuilder()
+      .setCustomId("commands_menu")
+      .setPlaceholder("🎮 Choisis une commande spéciale")
+      .addOptions([
+        {
+          label: "🎭 Blague du jour",
+          description: "Raconte une blague drôle",
+          value: "blague",
+          emoji: "🎭",
+        },
+        {
+          label: "💡 Citation inspirante",
+          description: "Génère une citation motivante",
+          value: "citation",
+          emoji: "💡",
+        },
+        {
+          label: "💭 Débat philosophique",
+          description: "Lance un débat intéressant",
+          value: "debat",
+          emoji: "💭",
+        },
+        {
+          label: "🎮 Quiz interactif",
+          description: "Crée un quiz amusant",
+          value: "quiz",
+          emoji: "🎮",
+        },
+        {
+          label: "📖 Histoire courte",
+          description: "Raconte une histoire captivante",
+          value: "histoire",
+          emoji: "📖",
+        },
+        {
+          label: "📝 Poème personnalisé",
+          description: "Écrit un poème sur un sujet",
+          value: "poeme",
+          emoji: "📝",
+        },
+        {
+          label: "🎨 Défi créatif",
+          description: "Propose un défi amusant",
+          value: "challenge",
+          emoji: "🎨",
+        },
+        {
+          label: "😂 Idée de meme",
+          description: "Génère une idée de meme",
+          value: "meme",
+          emoji: "😂",
+        },
+      ])
+  );
+  return row;
+}
+
 // Fonction pour gérer les commandes spéciales
 async function handleSpecialCommands(message) {
   const content = message.content.toLowerCase();
 
-  // Commande personnalité
-  if (content.startsWith("!personnalite")) {
-    const personality = content.split(" ")[1];
-    if (features.personalities[personality]) {
-      userPersonalities.set(message.author.id, personality);
-      const embed = createEmbed(
-        "🎭 Personnalité changée !",
-        `Tu es maintenant en mode **${personality}** !\n\nPersonnalités disponibles :\n${Object.keys(
-          features.personalities
-        )
-          .map((p) => `• ${p}`)
-          .join("\n")}`,
-        0xff6b6b
-      );
-      message.reply({ embeds: [embed] });
-      return true;
-    }
+  // Commande personnalité avec boutons
+  if (content === "!personnalite") {
+    const embed = createEmbed(
+      "🎭 Choisis ta personnalité IA",
+      "Clique sur un bouton pour changer la personnalité de l'IA :\n\n" +
+        "**🤖 Normal** - Assistant général\n" +
+        "**🎭 Humoriste** - Blagues et humour\n" +
+        "**💭 Philosophe** - Réflexions profondes\n" +
+        "**💪 Coach** - Motivation et conseils\n" +
+        "**🔬 Scientifique** - Explications claires",
+      0xff6b6b
+    );
+
+    const buttons = createPersonalityButtons();
+    message.reply({ embeds: [embed], components: [buttons] });
+    return true;
   }
 
-  // Commande blague
+  // Commande menu des commandes
+  if (content === "!menu") {
+    const embed = createEmbed(
+      "🎮 Menu des commandes spéciales",
+      "Utilise le menu déroulant pour choisir une commande spéciale :\n\n" +
+        "• **🎭 Blague** - Raconte une blague\n" +
+        "• **💡 Citation** - Citation inspirante\n" +
+        "• **💭 Débat** - Lance un débat\n" +
+        "• **🎮 Quiz** - Quiz interactif\n" +
+        "• **📖 Histoire** - Histoire courte\n" +
+        "• **📝 Poème** - Poème personnalisé\n" +
+        "• **🎨 Challenge** - Défi créatif\n" +
+        "• **😂 Meme** - Idée de meme",
+      0x00ff00
+    );
+
+    const menu = createCommandsMenu();
+    message.reply({ embeds: [embed], components: [menu] });
+    return true;
+  }
+
+  // Commande aide avec boutons
+  if (content === "!aide") {
+    const embed = createEmbed(
+      "🤖 Aide et commandes",
+      "**🎭 Personnalités disponibles :**\n" +
+        Object.keys(features.personalities)
+          .map((p) => `• ${p}`)
+          .join("\n") +
+        "\n\n" +
+        "**🎮 Commandes principales :**\n" +
+        "• `!personnalite` - Choisir une personnalité\n" +
+        "• `!menu` - Menu des commandes spéciales\n" +
+        "• `!aide` - Cette aide\n\n" +
+        "**💡 Utilisation :**\n" +
+        "• Tape simplement ton message pour discuter\n" +
+        "• Utilise les commandes pour des fonctionnalités spéciales",
+      0x00ff00
+    );
+
+    const row = new ActionRowBuilder().addComponents(
+      new ButtonBuilder()
+        .setCustomId("help_personality")
+        .setLabel("🎭 Personnalités")
+        .setStyle(ButtonStyle.Primary),
+      new ButtonBuilder()
+        .setCustomId("help_commands")
+        .setLabel("🎮 Commandes")
+        .setStyle(ButtonStyle.Secondary),
+      new ButtonBuilder()
+        .setCustomId("help_examples")
+        .setLabel("💡 Exemples")
+        .setStyle(ButtonStyle.Success)
+    );
+
+    message.reply({ embeds: [embed], components: [row] });
+    return true;
+  }
+
+  // Commandes simples (sans boutons)
   if (content === "!blague") {
     const response = await callMistralAPI(
       "Raconte-moi une blague drôle et originale en français",
@@ -133,7 +286,6 @@ async function handleSpecialCommands(message) {
     return true;
   }
 
-  // Commande citation
   if (content === "!citation") {
     const response = await callMistralAPI(
       "Donne-moi une citation inspirante et motivante en français",
@@ -148,21 +300,6 @@ async function handleSpecialCommands(message) {
     return true;
   }
 
-  // Commande débat
-  if (content.startsWith("!debat")) {
-    const sujet =
-      content.replace("!debat", "").trim() ||
-      "un sujet philosophique intéressant";
-    const response = await callMistralAPI(
-      `Lance un débat sur ${sujet}. Pose une question provocante et donne 3 arguments pour et contre.`,
-      "philosophe"
-    );
-    const embed = createEmbed("💭 Débat philosophique", response, 0x9b59b6);
-    message.reply({ embeds: [embed] });
-    return true;
-  }
-
-  // Commande quiz
   if (content === "!quiz") {
     const response = await callMistralAPI(
       "Crée un quiz amusant avec 3 questions et leurs réponses. Format : Question 1: [question] Réponse: [réponse]",
@@ -173,7 +310,6 @@ async function handleSpecialCommands(message) {
     return true;
   }
 
-  // Commande histoire
   if (content === "!histoire") {
     const response = await callMistralAPI(
       "Raconte-moi une histoire courte et captivante (max 200 mots)",
@@ -184,19 +320,6 @@ async function handleSpecialCommands(message) {
     return true;
   }
 
-  // Commande poème
-  if (content.startsWith("!poeme")) {
-    const sujet = content.replace("!poeme", "").trim() || "la vie";
-    const response = await callMistralAPI(
-      `Écris un poème court et beau sur ${sujet}`,
-      "default"
-    );
-    const embed = createEmbed("📝 Poème personnalisé", response, 0xf39c12);
-    message.reply({ embeds: [embed] });
-    return true;
-  }
-
-  // Commande challenge
   if (content === "!challenge") {
     const response = await callMistralAPI(
       "Propose un défi créatif amusant pour aujourd'hui",
@@ -207,7 +330,6 @@ async function handleSpecialCommands(message) {
     return true;
   }
 
-  // Commande meme
   if (content === "!meme") {
     const response = await callMistralAPI(
       "Génère une idée de meme drôle et originale",
@@ -218,28 +340,159 @@ async function handleSpecialCommands(message) {
     return true;
   }
 
-  // Commande aide
-  if (content === "!aide") {
-    const embed = createEmbed(
-      "🤖 Commandes disponibles",
-      `**🎭 Personnalités :**\n${Object.keys(features.personalities)
-        .map((p) => `• ${p}`)
-        .join("\n")}\n\n` +
-        `**🎮 Commandes spéciales :**\n${Object.keys(features.commands)
-          .map((cmd) => `• ${cmd}`)
-          .join("\n")}\n\n` +
-        `**🎨 Créatif :**\n${Object.keys(features.creative)
-          .map((cmd) => `• ${cmd}`)
-          .join("\n")}\n\n` +
-        `**💡 Utilisation :**\n• Tape simplement ton message pour discuter\n• Utilise les commandes pour des fonctionnalités spéciales`,
-      0x00ff00
-    );
-    message.reply({ embeds: [embed] });
-    return true;
-  }
-
   return false;
 }
+
+// Gestion des interactions (boutons et menus)
+client.on("interactionCreate", async (interaction) => {
+  if (!interaction.isButton() && !interaction.isStringSelectMenu()) return;
+
+  await interaction.deferUpdate();
+
+  try {
+    // Gestion des boutons de personnalité
+    if (
+      interaction.isButton() &&
+      interaction.customId.startsWith("personality_")
+    ) {
+      const personality = interaction.customId.replace("personality_", "");
+      userPersonalities.set(interaction.user.id, personality);
+
+      const embed = createEmbed(
+        "🎭 Personnalité changée !",
+        `Tu es maintenant en mode **${personality}** !\n\nL'IA s'adaptera à cette personnalité pour tes prochaines conversations.`,
+        0xff6b6b
+      );
+
+      await interaction.followUp({ embeds: [embed], ephemeral: true });
+      return;
+    }
+
+    // Gestion du menu des commandes
+    if (
+      interaction.isStringSelectMenu() &&
+      interaction.customId === "commands_menu"
+    ) {
+      const command = interaction.values[0];
+      let response, title, color;
+
+      switch (command) {
+        case "blague":
+          response = await callMistralAPI(
+            "Raconte-moi une blague drôle et originale en français",
+            "humoriste"
+          );
+          title = "🎭 Blague du jour";
+          color = 0xffd93d;
+          break;
+        case "citation":
+          response = await callMistralAPI(
+            "Donne-moi une citation inspirante et motivante en français",
+            "coach"
+          );
+          title = "💡 Citation inspirante";
+          color = 0x6bcf7f;
+          break;
+        case "debat":
+          response = await callMistralAPI(
+            "Lance un débat philosophique intéressant. Pose une question provocante et donne 3 arguments pour et contre.",
+            "philosophe"
+          );
+          title = "💭 Débat philosophique";
+          color = 0x9b59b6;
+          break;
+        case "quiz":
+          response = await callMistralAPI(
+            "Crée un quiz amusant avec 3 questions et leurs réponses. Format : Question 1: [question] Réponse: [réponse]",
+            "scientifique"
+          );
+          title = "🎮 Quiz du jour";
+          color = 0x3498db;
+          break;
+        case "histoire":
+          response = await callMistralAPI(
+            "Raconte-moi une histoire courte et captivante (max 200 mots)",
+            "default"
+          );
+          title = "📖 Histoire du jour";
+          color = 0xe74c3c;
+          break;
+        case "poeme":
+          response = await callMistralAPI(
+            "Écris un poème court et beau sur la vie",
+            "default"
+          );
+          title = "📝 Poème personnalisé";
+          color = 0xf39c12;
+          break;
+        case "challenge":
+          response = await callMistralAPI(
+            "Propose un défi créatif amusant pour aujourd'hui",
+            "coach"
+          );
+          title = "🎨 Défi créatif";
+          color = 0xe91e63;
+          break;
+        case "meme":
+          response = await callMistralAPI(
+            "Génère une idée de meme drôle et originale",
+            "humoriste"
+          );
+          title = "😂 Idée de meme";
+          color = 0x1abc9c;
+          break;
+      }
+
+      const embed = createEmbed(title, response, color);
+      await interaction.followUp({ embeds: [embed] });
+      return;
+    }
+
+    // Gestion des boutons d'aide
+    if (interaction.isButton() && interaction.customId.startsWith("help_")) {
+      const helpType = interaction.customId.replace("help_", "");
+      let embed;
+
+      switch (helpType) {
+        case "personality":
+          embed = createEmbed(
+            "🎭 Personnalités disponibles",
+            Object.keys(features.personalities)
+              .map((p) => `• **${p}** - ${features.personalities[p]}`)
+              .join("\n"),
+            0xff6b6b
+          );
+          break;
+        case "commands":
+          embed = createEmbed(
+            "🎮 Commandes spéciales",
+            Object.keys(features.commands)
+              .map((cmd) => `• **${cmd}** - ${features.commands[cmd]}`)
+              .join("\n"),
+            0x3498db
+          );
+          break;
+        case "examples":
+          embed = createEmbed(
+            "💡 Exemples d'utilisation",
+            '**Discussions normales :**\n• "Salut comment ça va ?"\n• "Raconte-moi une histoire"\n\n' +
+              "**Commandes spéciales :**\n• `!personnalite` - Choisir une personnalité\n• `!menu` - Menu des commandes\n• `!blague` - Raconter une blague\n\n" +
+              "**Personnalités :**\n• `!personnalite humoriste` - Mode blagueur\n• `!personnalite philosophe` - Mode réflexion",
+            0x00ff00
+          );
+          break;
+      }
+
+      await interaction.followUp({ embeds: [embed], ephemeral: true });
+    }
+  } catch (error) {
+    console.error("Erreur interaction:", error);
+    await interaction.followUp({
+      content: "❌ Erreur lors de l'exécution de la commande.",
+      ephemeral: true,
+    });
+  }
+});
 
 // Gestion des messages
 client.on("messageCreate", async (message) => {
