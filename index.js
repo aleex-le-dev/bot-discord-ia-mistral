@@ -74,20 +74,20 @@ client.once("ready", () => {
 // Fonction pour appeler l'API Mistral avec personnalité
 function callMistralAPI(prompt) {
   return new Promise((resolve, reject) => {
-    let systemPrompt = '';
+    let systemPrompt = "";
     if (notionKnowledge) {
-      systemPrompt = config.mistral.systemPrompt + '\n' + notionKnowledge;
+      systemPrompt = config.mistral.systemPrompt + "\n" + notionKnowledge;
     } else {
-      systemPrompt = 'Tu ne sais rien.';
+      systemPrompt = "Tu ne sais rien.";
     }
     const data = JSON.stringify({
       model: config.mistral.model,
       messages: [
-        { role: 'system', content: systemPrompt },
-        { role: 'user', content: prompt }
+        { role: "system", content: systemPrompt },
+        { role: "user", content: prompt },
       ],
       max_tokens: config.mistral.maxTokens,
-      temperature: config.mistral.temperature
+      temperature: config.mistral.temperature,
     });
 
     const options = {
@@ -178,7 +178,7 @@ async function handleSpecialCommands(message) {
       0x00ff00
     );
     const menu = createCommandsMenu();
-    message.reply({ embeds: [embed], components: [menu] });
+    message.channel.send({ embeds: [embed], components: [menu] });
     return true;
   }
 
@@ -189,7 +189,7 @@ async function handleSpecialCommands(message) {
       "Toutes les réponses sont issues uniquement de la base de connaissances JSON.\nUtilise `!menu` pour voir les commandes spéciales.",
       0x00ff00
     );
-    message.reply({ embeds: [embed] });
+    message.channel.send({ embeds: [embed] });
     return true;
   }
 
@@ -205,7 +205,7 @@ async function handleSpecialCommands(message) {
         "\n\n💡 **Autres commandes :** `!citation`, `!quiz`, `!histoire`",
       0xffd93d
     );
-    message.reply({ embeds: [embed] });
+    message.channel.send({ embeds: [embed] });
     return true;
   }
 
@@ -221,7 +221,7 @@ async function handleSpecialCommands(message) {
         "\n\n💡 **Autres commandes :** `!blague`, `!debat`, `!challenge`",
       0x6bcf7f
     );
-    message.reply({ embeds: [embed] });
+    message.channel.send({ embeds: [embed] });
     return true;
   }
 
@@ -239,7 +239,7 @@ async function handleSpecialCommands(message) {
       response + "\n\n💡 **Autres commandes :** `!citation`, `!quiz`, `!poeme`",
       0x9b59b6
     );
-    message.reply({ embeds: [embed] });
+    message.channel.send({ embeds: [embed] });
     return true;
   }
 
@@ -255,7 +255,7 @@ async function handleSpecialCommands(message) {
         "\n\n💡 **Autres commandes :** `!blague`, `!histoire`, `!meme`",
       0x3498db
     );
-    message.reply({ embeds: [embed] });
+    message.channel.send({ embeds: [embed] });
     return true;
   }
 
@@ -271,7 +271,7 @@ async function handleSpecialCommands(message) {
         "\n\n💡 **Autres commandes :** `!poeme`, `!challenge`, `!citation`",
       0xe74c3c
     );
-    message.reply({ embeds: [embed] });
+    message.channel.send({ embeds: [embed] });
     return true;
   }
 
@@ -288,7 +288,7 @@ async function handleSpecialCommands(message) {
         "\n\n💡 **Autres commandes :** `!histoire`, `!citation`, `!debat`",
       0xf39c12
     );
-    message.reply({ embeds: [embed] });
+    message.channel.send({ embeds: [embed] });
     return true;
   }
 
@@ -303,7 +303,7 @@ async function handleSpecialCommands(message) {
       response + "\n\n💡 **Autres commandes :** `!meme`, `!blague`, `!quiz`",
       0xe91e63
     );
-    message.reply({ embeds: [embed] });
+    message.channel.send({ embeds: [embed] });
     return true;
   }
 
@@ -319,7 +319,7 @@ async function handleSpecialCommands(message) {
         "\n\n💡 **Autres commandes :** `!challenge`, `!blague`, `!histoire`",
       0x1abc9c
     );
-    message.reply({ embeds: [embed] });
+    message.channel.send({ embeds: [embed] });
     return true;
   }
 
@@ -346,7 +346,7 @@ async function handleSpecialCommands(message) {
       0x00ffff
     );
 
-    message.reply({ embeds: [embed] });
+    message.channel.send({ embeds: [embed] });
     return true;
   }
 
@@ -417,7 +417,7 @@ client.on("messageCreate", async (message) => {
       response + "\n\n" + randomSuggestion,
       0x0099ff
     );
-    message.reply({ embeds: [embed] });
+    message.channel.send({ embeds: [embed] });
 
     // Mettre à jour les stats utilisateur
     const userStat = userStats.get(message.author.id) || {
@@ -432,10 +432,10 @@ client.on("messageCreate", async (message) => {
 
     if (error.message === "RATE_LIMIT") {
       console.error("Rate limit atteint");
-      message.reply(config.messages.rateLimit);
+      message.channel.send(config.messages.rateLimit);
     } else {
       console.error("Erreur Mistral:", error);
-      message.reply(config.messages.error);
+      message.channel.send(config.messages.error);
     }
   }
 });
