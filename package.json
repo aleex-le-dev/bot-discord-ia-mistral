@@ -1,0 +1,22 @@
+{
+  "name": "bot-discord-ia",
+  "version": "1.0.0",
+  "description": "Bot Discord avec intégration IA Mistral",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "dev": "node index.js"
+  },
+  "keywords": [
+    "discord",
+    "bot",
+    "ai",
+    "mistral"
+  ],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "discord.js": "^14.14.1",
+    "dotenv": "^16.3.1"
+  }
+}
