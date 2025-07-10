@@ -1,0 +1,13 @@
+services:
+  - type: worker
+    name: bot-discord-ia-mistral
+    env: node
+    plan: free
+    buildCommand: "npm install"
+    startCommand: "node index.js"
+    autoDeploy: true
+    envVars:
+      - key: DISCORD_TOKEN
+        sync: false
+      - key: MISTRAL_API_KEY
+        sync: false
