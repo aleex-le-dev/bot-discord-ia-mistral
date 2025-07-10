@@ -77,7 +77,8 @@ function callMistralAPI(prompt) {
     let systemPrompt = "";
     if (notionKnowledge) {
       systemPrompt =
-        'Voici toute la base de connaissances à utiliser pour répondre à toutes les questions. Si la réponse n\'est pas dans cette base, réponds "Je ne sais pas."\n' +
+        "Voici toute la base de connaissances à utiliser pour répondre à toutes les questions. Si la réponse n'est pas dans cette base, réponds uniquement \"Je ne sais pas.\". Donne une seule réponse, sans variantes, sans suggestions, sans reformulation, et n'invente rien. Réponds uniquement avec le texte exact du JSON." +
+        "\n" +
         notionKnowledge;
     } else {
       systemPrompt = "Tu ne sais rien.";
