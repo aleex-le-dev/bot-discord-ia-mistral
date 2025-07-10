@@ -170,48 +170,7 @@ function createCommandsMenu() {
 async function handleSpecialCommands(message) {
   const content = message.content.toLowerCase();
 
-  // Commande personnalité avec suggestions visuelles
-  if (content === "!personnalite") {
-    const embed = createEmbed(
-      "🎭 Choisis ta personnalité IA",
-      "**Personnalités disponibles :**\n\n" +
-        "**🤖 Normal** - Assistant général\n" +
-        "`!personnalite default`\n\n" +
-        "**🎭 Humoriste** - Blagues et humour\n" +
-        "`!personnalite humoriste`\n\n" +
-        "**💭 Philosophe** - Réflexions profondes\n" +
-        "`!personnalite philosophe`\n\n" +
-        "**💪 Coach** - Motivation et conseils\n" +
-        "`!personnalite coach`\n\n" +
-        "**🔬 Scientifique** - Explications claires\n" +
-        "`!personnalite scientifique`\n\n" +
-        "**📚 Historien** - Anecdotes historiques\n" +
-        "`!personnalite historien`\n\n" +
-        "💡 **Exemple :** Tape `!personnalite humoriste` pour passer en mode blagueur !",
-      0xff6b6b
-    );
-
-    message.reply({ embeds: [embed] });
-    return true;
-  }
-
-  // Commande personnalité spécifique
-  if (content.startsWith("!personnalite ")) {
-    const personality = content.split(" ")[1];
-    if (features.personalities[personality]) {
-      userPersonalities.set(message.author.id, personality);
-      const embed = createEmbed(
-        "🎭 Personnalité changée !",
-        `Tu es maintenant en mode **${personality}** !\n\n` +
-          `L'IA s'adaptera à cette personnalité pour tes prochaines conversations.\n\n` +
-          `**Personnalité actuelle :** ${personality}\n` +
-          `**Description :** ${features.personalities[personality]}`,
-        0xff6b6b
-      );
-      message.reply({ embeds: [embed] });
-      return true;
-    }
-  }
+  // Supprimer toute gestion de !personnalite
 
   // Commande menu des commandes avec menu déroulant interactif
   if (content === "!menu") {
@@ -225,31 +184,13 @@ async function handleSpecialCommands(message) {
     return true;
   }
 
-  // Commande aide avec suggestions détaillées
+  // Commande aide simplifiée
   if (content === "!aide") {
     const embed = createEmbed(
-      "🤖 Aide et commandes",
-      "**🎭 Personnalités disponibles :**\n" +
-        Object.keys(features.personalities)
-          .map((p) => `• **${p}** - ${features.personalities[p]}`)
-          .join("\n") +
-        "\n\n" +
-        "**🎮 Commandes principales :**\n" +
-        "• `!personnalite` - Voir les personnalités disponibles\n" +
-        "• `!personnalite [nom]` - Choisir une personnalité\n" +
-        "• `!menu` - Voir toutes les commandes spéciales\n" +
-        "• `!aide` - Cette aide\n\n" +
-        "**💡 Utilisation :**\n" +
-        "• Tape simplement ton message pour discuter\n" +
-        "• Utilise les commandes pour des fonctionnalités spéciales\n\n" +
-        "**🎯 Exemples rapides :**\n" +
-        "• `!personnalite humoriste` → Mode blagueur\n" +
-        "• `!blague` → Raconter une blague\n" +
-        "• `!citation` → Citation inspirante\n" +
-        "• `!quiz` → Quiz interactif",
+      "🤖 Aide",
+      "Toutes les réponses sont issues uniquement de la base de connaissances JSON.\nUtilise `!menu` pour voir les commandes spéciales.",
       0x00ff00
     );
-
     message.reply({ embeds: [embed] });
     return true;
   }
@@ -457,7 +398,7 @@ client.on("messageCreate", async (message) => {
     const personality = userPersonalities.get(message.author.id) || "default";
 
     // Appel à l'API Mistral
-    const response = await callMistralAPI(prompt, personality);
+    const response = await callMistralAPI(prompt);
 
     // Supprimer le message de chargement et répondre avec la réponse de l'IA
     await loadingMessage.delete();
