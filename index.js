@@ -11,6 +11,17 @@ const config = require("./config");
 const features = require("./features");
 const notion = require("./notion");
 const fs = require("fs");
+const http = require("http");
+const PORT = process.env.PORT || 3000;
+
+http
+  .createServer((req, res) => {
+    res.writeHead(200, { "Content-Type": "text/plain" });
+    res.end("Bot Discord IA actif !");
+  })
+  .listen(PORT, () => {
+    console.log(`Serveur HTTP pour Render lancé sur le port ${PORT}`);
+  });
 
 // Configuration du client Discord avec les permissions nécessaires
 const client = new Client({
