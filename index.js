@@ -10,6 +10,7 @@ const https = require("https");
 const config = require("./config");
 const features = require("./features");
 const notion = require("./notion");
+const fs = require("fs");
 
 // Configuration du client Discord avec les permissions nécessaires
 const client = new Client({
@@ -28,6 +29,14 @@ const NOTION_PAGE_IDS = [
   process.env.NOTION_PAGE_ID_2,
 ].filter(Boolean);
 let notionKnowledge = "";
+try {
+  const data = fs.readFileSync("notion_page.json", "utf-8");
+  const json = JSON.parse(data);
+  notionKnowledge = json.content || "";
+  console.log("Connaissance locale chargée depuis notion_page.json");
+} catch (e) {
+  console.error("Erreur chargement notion_page.json :", e);
+}
 
 // Charger la connaissance Notion au démarrage et périodiquement
 async function refreshNotionKnowledge() {

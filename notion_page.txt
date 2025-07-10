@@ -1,0 +1,1243 @@
+# 📄 Colle ici tout le contenu de ta page Notion !
+
+- Ce fichier sert à transformer ta page en JSON automatiquement.
+- Tu peux copier/coller tout le texte, y compris les titres, listes, blocs de code, etc.
+- Quand tu as fini, lance :
+
+    node notion_to_json.js notion_page.txt notion_page.json
+
+- Le fichier notion_page.json sera généré avec tout le contenu.
+
+---
+
+
+# 🌐 API REST / HTTP
+
+- ✅ Requêtes HTTP de base
+    
+    ```bash
+    curl https://api.site.com/posts        # GET : récupérer des données
+    curl -X POST https://api.site.com/...  # POST : envoyer des données
+    curl -X PUT https://api.site.com/...   # PUT : modifier une ressource
+    curl -X DELETE https://api.site.com/...# DELETE : supprimer une ressource
+    
+    ```
+    
+- 🔑 Headers & Auth
+    
+    ```bash
+    curl -H "Authorization: Bearer token" https://...    # Ajouter token JWT
+    curl -H "Content-Type: application/json"             # Spécifier type JSON
+    curl -H "Accept: application/json"                    # Demander JSON en réponse
+    curl -H "User-Agent: MonAgent"                        # Modifier user-agent (utile tests)
+    
+    ```
+    
+- 🧰 Divers
+    
+    ```bash
+    curl -I https://site.com                                  # Afficher uniquement les headers (HEAD)
+    curl https://site.com > fichier.html                      # Enregistrer la réponse dans un fichier
+    
+    curl -v https://site.com                                  # Mode verbeux : voir requête complète (headers, etc.)
+    curl --compressed https://site.com                        # Activer compression gzip pour gagner du temps
+    
+    curl --data "param1=val1&param2=val2" https://site.com    # POST avec formulaire url-encoded
+    
+    curl -X PATCH https://api.site.com/resource               # PATCH : modification partielle
+    
+    curl --max-time 10 https://site.com                       # Timeout après 10 secondes
+    
+    ```
+    
+
+# CSS
+
+- Display, position,  z-index
+    
+    ```css
+    display: flex;                    /* Active le mode Flexbox */
+    display: grid;                    /* Active le mode Grid */
+    display: block / inline / none;  /* Type d’affichage classique */
+    
+    position: static / relative / absolute / fixed / sticky;
+    top / right / bottom / left: Xpx;   /* Positionnement manuel */
+    z-index: 10;                      /* Ordre d’empilement */
+    
+    overflow: hidden / scroll / auto;   /* Gestion du débordement */
+    cursor: pointer / not-allowed;      /* Apparence du curseur */
+    transition: all 0.3s ease;          /* Animation fluide */
+    visibility: visible / hidden;       /* Rend invisible sans supprimer l’élément */
+    opacity: 0.5;                       /* Transparence */
+    overflow-x / overflow-y: hidden / scroll / auto;  /* Contrôle par axe */
+    
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);  /* Ombre portée */
+    border-radius: 4px;                     /* Bords arrondis */
+    transition: all 0.3s ease-in-out;       /* Transition fluide */
+    
+    ```
+    
+- Dimensions & Espacements
+    
+    ```css
+    width / height: 100px / 100%;     
+    max-width / max-height: 100%;     
+    min-width / min-height: 0;        
+    
+    margin: auto;                     /* Centrage horizontal */
+    margin / padding: 1rem;           /* Espaces externes / internes */
+    box-sizing: content-box;  /* Par défaut (taille exclut padding & border) */
+    gap: 1rem;                        /* Espace entre les éléments (Flex / Grid) */
+    
+    box-sizing: border-box;           /* Gère le padding dans la taille réelle */
+    
+    ```
+    
+- Flexbox
+    
+    ```css
+    display: flex;                              /* Active Flexbox */
+    flex-direction: row / column;               /* Sens des éléments */
+    flex-wrap: wrap / nowrap;                   /* Retour à la ligne */
+    
+    justify-content:                             /* Alignement horizontal */
+      flex-start / center / flex-end / space-between / space-around;
+    
+    align-items:                                  /* Alignement vertical */
+      stretch / center / flex-start / flex-end / baseline;
+    
+    align-content:                                /* Alignement multi-ligne */
+      stretch / center / space-between / space-around;
+    align-self: auto / flex-start / flex-end / center;  /* Override align-items pour un élément */
+    
+    flex-grow: 1;                                /* Étend un élément */
+    flex-shrink: 0;                              /* Empêche le rétrécissement */
+    flex-basis: 200px;                           /* Taille de base de l’élément */
+    flex: 1;                                     /* Raccourci pour grow/shrink/basis */
+    
+    order: 2;                                    /* Change l’ordre d’affichage */
+    
+    ```
+    
+- Grid
+    
+    ```css
+    display: grid;                                /* Active Grid */
+    grid-template-columns: repeat(3, 1fr);        /* 3 colonnes égales */
+    grid-template-rows: 100px auto;               /* Définition des lignes */
+    grid-gap / gap: 1rem;                         /* Espace entre lignes/colonnes */
+    
+    grid-column: 1 / 3;                           /* Occupe les colonnes 1 à 2 */
+    grid-row: 2 / 4;                              /* Occupe les lignes 2 à 3 */
+    
+    grid-area: nom;                               /* Nommer une zone */
+    grid-template-areas:                          /* Créer une grille nommée */
+      "header header"
+      "sidebar main";
+      
+    grid-auto-rows / grid-auto-columns: taille;     /* Taille des lignes/colonnes automatiques */
+    grid-auto-flow: row / column / dense;             /* Ordre placement automatique */
+    
+    place-items: center;                          /* Centre verticalement & horizontalement */
+    justify-items: start / center / end;          /* Aligne chaque cellule horizontalement */
+    align-items: stretch / center / end;          /* Aligne chaque cellule verticalement */
+    
+    ```
+    
+- Texte
+    
+    ```css
+    font-size: 1rem;                 
+    font-weight: bold / normal;      
+    text-align: center / left / right;
+    text-decoration: none / underline;
+    text-transform: uppercase / lowercase / capitalize;
+    line-height: 1.5;              /* Hauteur de ligne pour lisibilité */
+    letter-spacing: 0.05em;        /* Espacement entre caractères */
+    word-break: break-word;        /* Casse les mots trop longs */
+    white-space: nowrap / pre-wrap; /* Gestion des retours à la ligne */
+    color: #333;                   /* Couleur du texte */
+    font-family: Arial, sans-serif; /* Police */
+    
+    ```
+    
+
+# 🐳 DOCKER & DOCKER-COMPOSE
+
+- 📦 Images / conteneurs
+    
+    ```bash
+    docker build -t nom .           # Construire image
+    docker run -p 3000:3000 nom     # Lancer conteneur
+    docker images                   # Lister images
+    docker ps / docker ps -a        # Conteneurs en cours / tous
+    
+    ```
+    
+- 🧹 Nettoyage
+    
+    ```bash
+    docker stop ID                  # Stopper conteneur
+    docker rm ID                    # Supprimer conteneur
+    docker rmi nom                  # Supprimer image
+    
+    ```
+    
+- 📂 Interagir avec conteneur
+    
+    ```bash
+    docker exec -it ID bash         # Entrer dans conteneur
+    docker logs ID                  # Voir logs
+    
+    ```
+    
+- 🔄 Docker Compose
+    
+    ```bash
+    docker-compose up               # Démarrer tout
+    docker-compose up -d            # Démarrer en arrière-plan
+    docker-compose down             # Arrêter tout
+    
+    ```
+    
+
+# GIT
+
+- Initialisation et configuration git
+    
+    ```bash
+    git init                         # Crée un nouveau dépôt Git local dans le dossier courant
+    git remote add origin [url]     # Lie ton dépôt local à un dépôt distant (GitHub, GitLab…)
+    git add *                        # Ajoute tous les fichiers modifiés pour les préparer à un commit
+    git commit -m "message"         # Enregistre un snapshot des fichiers ajoutés avec un message
+    git push origin master           # Envoie les commits vers la branche "master" du dépôt distant
+    git push origin nom_branche      # Envoie vers une branche spécifique
+    git push --force origin nom_branche  # Force le push (attention à l’historique)
+    
+    git config --global user.email "jalias59@outlook.fr"  # Définit ton email Git global (tous les dépôts)
+    git config --global user.name "diiablex62"            # Définit ton nom Git global
+    
+    ```
+    
+- Gestion des branches
+    
+    ```bash
+    git branch -a                    # Affiche toutes les branches locales et distantes
+    git status                       # Affiche la branche actuelle et les modifications locales
+    git fetch                        # Récupère les dernières infos du dépôt distant (sans fusion)
+    git pull                         # Récupère ET fusionne les modifications du dépôt distant
+    git merge [autre_branche]        # Fusionne une branche dans la branche actuelle
+    
+    ```
+    
+- Clonage et réinitialisation
+    
+    ```bash
+    git clone [url]                  # Télécharge une copie complète d’un dépôt distant
+    rm -rf .git                      # Supprime tout le suivi Git d’un dossier (remise à zéro)
+    
+    git fetch origin                 # Réinitialise ton dépôt local pour correspondre au dépôt distant puis :
+    git reset --hard origin/master   # Commit les modifs
+    
+    ```
+    
+- Commandes de navigation terminal
+    
+    ```bash
+    cd [nom du dossier]              # Entre dans un dossier
+    cd ..                            # Remonte au dossier parent
+    ls                               # Affiche les fichiers/dossiers présents
+    ls -a                            # Affiche aussi les fichiers cachés (.git, .env, etc.)
+    help                             # Affiche la liste des commandes disponibles dans le terminal
+    help [commande]                  # Affiche l’aide détaillée d’une commande spécifique
+    
+    ```
+    
+- Gestion des commits
+    
+    ```bash
+    git add .                        # Ajoute tous les fichiers modifiés au prochain commit
+    git add [fichier]                # Ajoute un fichier spécifique au prochain commit
+    git commit --amend               # Modifie le dernier commit (ajout fichiers ou correction du message)
+    git reset HEAD~1                 # Annule le dernier commit (garde les fichiers modifiés)
+    git log                          # Affiche l’historique des commits avec détails
+    git revert [commit]              # Crée un commit qui annule un commit précédent (sans réécrire l'historique)
+    
+    ```
+    
+- Gestion des tags
+    
+    ```bash
+    git tag                          # Liste tous les tags disponibles
+    git tag [nom]                    # Crée un nouveau tag (souvent utilisé pour marquer une version)
+    git push origin [nom_tag]        # Envoie un tag spécifique sur le dépôt distant
+    git tag -d [nom]                 # Supprime un tag localement
+    
+    ```
+    
+- Gestion du stash
+    
+    ```bash
+    git stash                         # Sauvegarde les modifications en cours sans les commit (code mis de côté)
+    git stash list                    # Affiche tous les stash enregistrés (code temporairement sauvegardé)
+    git stash apply                   # Restaure le dernier stash (remet les modifs sans le supprimer)
+    git stash pop                     # Restaure ET supprime le dernier stash (comme "coller" et jeter)
+    git stash drop                    # Supprime manuellement le dernier stash (sans l’appliquer)
+    
+    ```
+    
+- Gestion des remotes
+    
+    ```bash
+    git remote -v                    # Affiche la liste des dépôts distants associés
+    git remote add [nom] [url]       # Ajoute un nouveau dépôt distant
+    git remote remove [nom]          # Supprime un dépôt distant
+    git fetch [remote]               # Récupère toutes les données d’un dépôt distant (branches, tags…)
+    
+    ```
+    
+
+# HTML
+
+- Structure de base
+    
+    ```html
+    <!DOCTYPE html>                                                               <!-- Déclare le type de document HTML5 -->
+    <html lang="fr">                                                              <!-- Racine du document avec langue -->
+    <head>                                                                        <!-- En-tête : meta, titre, liens CSS -->
+      <meta charset="UTF-8">                                                      <!-- Encodage caractères -->
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">      <!-- Responsive -->
+      <title>Titre de la page</title>                                             <!-- Titre onglet navigateur -->
+    </head>
+    <body>                                                                        <!-- Corps de la page (contenu visible) -->
+    
+    </body>
+    </html>
+    
+    ```
+    
+- Balises de contenu
+    
+    ```html
+    <h1> … </h1> à <h6> … </h6>                   <!-- Titres hiérarchiques (h1 = plus important) -->
+    <p> … </p>                                    <!-- Paragraphe de texte -->
+    <br>                                          <!-- Saut de ligne simple -->
+    <hr>                                          <!-- Ligne horizontale (séparateur) -->
+    
+    <a href="url">Lien</a>                        <!-- Lien cliquable vers une URL -->
+    <img src="image.jpg" alt="texte alternatif">  <!-- Image avec texte alternatif -->
+    <ul>                                          <!-- Liste non ordonnée (puces) -->
+      <li>Élément 1</li>
+      <li>Élément 2</li>
+    </ul>
+    <ol>                                          <!-- Liste ordonnée (numérotée) -->
+      <li>Premier</li>
+      <li>Deuxième</li>
+    </ol>
+    
+    ```
+    
+- Formulaire
+    
+    ```html
+    <form action="url" method="post">  <!-- Formulaire de saisie -->
+      <label for="nom">Nom :</label>
+      <input type="text" id="nom" name="nom" required>  <!-- Champ texte -->
+      <input type="email" name="email" placeholder="email@exemple.com"> <!-- Email -->
+      <input type="password" name="mdp">   <!-- Mot de passe -->
+      <input type="number" name="age" min="0" max="120" step="1">   <!-- Nombre avec limites -->
+      <input type="checkbox" name="accept" required>               <!-- Case à cocher obligatoire -->
+      <input type="radio" name="genre" value="M">                   <!-- Bouton radio -->
+      
+    <select name="pays">                                         <!-- Liste déroulante -->
+      <option value="fr">France</option>
+      <option value="us">USA</option>
+    </select>
+    
+      
+      <textarea name="message" rows="4"></textarea>  <!-- Zone de texte multilignes -->
+      
+      <button type="submit">Envoyer</button>          <!-- Bouton envoyer -->
+    </form>
+    
+    ```
+    
+- Autres balises utiles
+    
+    ```html
+    <div> … </div>                             <!-- Conteneur générique (block) -->
+    <span> … </span>                           <!-- Conteneur inline (texte, petite portion) -->
+    
+    <meta>                                     <!-- Métadonnées (charset, viewport, SEO…) -->
+    <link rel="stylesheet" href="style.css">   <!-- Lien vers CSS externe -->
+    <script src="script.js"></script>          <!-- Lien vers fichier JS -->
+    
+    <header> … </header>      <!-- En-tête de page ou section -->
+    <nav> … </nav>            <!-- Menu/navigation -->
+    <main> … </main>          <!-- Contenu principal -->
+    <section> … </section>    <!-- Section générique -->
+    <article> … </article>    <!-- Contenu autonome (article, post) -->
+    <footer> … </footer>      <!-- Pied de page -->
+    
+    ```
+    
+- Texte
+    
+    ```css
+    font-size: 1rem;                 
+    font-weight: bold / normal;      
+    text-align: center / left / right;
+    text-decoration: none / underline;
+    text-transform: uppercase / lowercase / capitalize;
+    
+    ```
+    
+
+# NPM / Node.js
+
+- Installation / désinstallation
+    
+    ```bash
+    npm init -y                        # Crée rapidement un package.json
+    npm install -g [package]           # Installer un package globalement (ex: nodemon)
+    npm list --depth=0                 # Voir les packages installés au niveau racine
+    
+    npm install                        # Installe toutes les dépendances du projet
+    npm install [package] -D           # Installe comme dépendance de développement
+    npm uninstall [package]            # Supprime un package
+    
+    ```
+    
+- Exécution / scripts
+    
+    ```bash
+    npm run [script]                   # Exécute un script du package.json
+    npm run dev                        # Lance le serveur de dev (ex: vite, next, react…)
+    npm run build                      # Lance la compilation pour production
+    npm run start                      # Démarre l'app (souvent backend)
+    npm run lint                       # Lancer un linter (exemple)
+    npm run test                       # Lancer les tests (exemple)
+    
+    ```
+    
+- Maintenance
+    
+    ```bash
+    npm outdated                       # Liste les packages obsolètes
+    npm update                         # Met à jour les packages
+    npm audit                          # Recherche de vulnérabilités dans les packages
+    npm audit fix                      # Tente de corriger automatiquement
+    
+    ```
+    
+- Exécution ponctuelle
+    
+    ```bash
+    npx [commande]                     # Exécute un package temporairement (sans install)
+    npx create-react-app monApp        # Crée un projet React
+    npx nodemon fichier.js             # Lancer fichier avec redémarrage automatique à chaque modif
+    ```
+    
+- Lancer un fichier Node
+    
+    ```bash
+    node fichier.js                    # Exécute un fichier Node.js
+    node --inspect fichier.js          # Debug avec Chrome DevTools
+    
+    ```
+    
+
+# JAVASCRIPT
+
+- Exécuter un script JS
+    
+    ```jsx
+    node fichier.js        // Exécute un fichier Node.js en local
+    
+    ```
+    
+- Afficher des messages dans la console
+    
+    ```jsx
+    console.log("texte");       // Message classique (debug)
+    console.error("erreur");    // Message d’erreur (rouge)
+    console.warn("avertisse");  // Avertissement
+    
+    ```
+    
+- Variables et types
+    
+    ```jsx
+    let age = 30;               // Variable modifiable
+    const nom = "Alex";         // Constante, ne change pas
+    var ancien = true;          // Ancienne syntaxe, éviter
+    
+    typeof age;                 // Renvoie le type (ex: number)
+    
+    ```
+    
+- Fonctions
+    
+    ```jsx
+    // Fonction classique
+    function addition(a, b) {
+      return a + b;             // Retourne la somme de a et b
+    }
+    
+    // Fonction fléchée (plus moderne)
+    const multiplier = (a, b) => a * b;
+    
+    ```
+    
+- Boucles
+    
+    ```jsx
+    for(let i = 0; i < 5; i++) {
+      console.log(i);          // 0 à 4
+    }
+    
+    array.forEach(item => {
+      console.log(item);       // Parcours tableau
+    });
+    
+    for(const item of array) {
+      console.log(item);       // Autre syntaxe tableau
+    }
+    
+    ```
+    
+- Tableaux (listes de données)
+    
+    ```jsx
+    const fruits = ["pomme", "banane", "cerise"];
+    
+    fruits.push("orange");                  // Ajout fin
+    fruits.pop();                           // Retirer fin
+    fruits.shift();                         // Retirer début
+    fruits.unshift("kiwi");                 // Ajouter début
+    
+    const doubles = fruits.map(f => f.length * 2);       // Nouveau tableau modifié
+    const gros = fruits.filter(f => f.length > 5);       // Filtrage
+    const trouve = fruits.find(f => f.startsWith("b"));  // Trouver 1er élément
+    
+    ```
+    
+- Objets (groupes de propriétés)
+    
+    ```jsx
+    const personne = {
+      nom: "Alex",
+      age: 30
+    };
+    
+    console.log(personne.nom);    // Affiche "Alex"
+    personne.ville = "Béthune";  // Ajoute une nouvelle propriété
+    delete personne.age;          // Supprime la propriété age
+    ```
+    
+- Conditions (faire des choix)
+    
+    ```jsx
+    if(age > 18) {
+      console.log("Adulte");
+    } else if(age > 12) {
+      console.log("Adolescent");
+    } else {
+      console.log("Enfant");
+    }
+    ```
+    
+- Promesses & Async/Await
+    
+    ```jsx
+    // Avec promesses
+    fetch("url")
+      .then(res => res.json())
+      .then(data => console.log(data))
+      .catch(err => console.error(err));
+    
+    // Avec async/await (plus lisible)
+    async function getData() {
+      try {
+        const res = await fetch("url");
+        const data = await res.json();
+        console.log(data);
+      } catch(e) {
+        console.error(e);
+      }
+    }
+    ```
+    
+- Expressions régulières (Regex), valider ou chercher du texte
+    
+    ```jsx
+    if(age > 18) {
+      console.log("Adulte");
+    } else if(age > 12) {
+      console.log("Adolescent");
+    } else {
+      console.log("Enfant");
+    }
+    ```
+    
+- Liste de Regex
+    
+    ```jsx
+    
+    // 1. Valider un email simple (format basique)
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;       // email standard : nom@domaine.ext
+    emailRegex.test("alex@example.com");                   // true si valide
+    
+    // 2. Valider un numéro de téléphone français (0 ou +33, suivi de 9 chiffres)
+    const phoneRegex = /^(\+33|0)[1-9](\d{2}){4}$/;       // ex : 0612345678 ou +33612345678
+    phoneRegex.test("0612345678");                         // true si valide
+    
+    // 3. Valider un mot de passe fort (8+ caractères, maj, min, chiffre)
+    const pwdRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,}$/;  // ex : MotDePasse1
+    pwdRegex.test("MotDePasse1");                           // true si valide
+    
+    // 4. Valider un code postal français (5 chiffres)
+    const postalCodeRegex = /^\d{5}$/;                       // ex : 75001
+    postalCodeRegex.test("75001");                           // true si valide
+    
+    // 5. Valider un pseudo simple (lettres, chiffres, underscore, 3-16 caractères)
+    const usernameRegex = /^[a-z0-9_-]{3,16}$/i;             // ex : alex_62
+    usernameRegex.test("alex_62");                            // true si valide
+    
+    // 6. Vérifier si une chaîne contient uniquement des chiffres
+    const digitsOnlyRegex = /^\d+$/;                          // uniquement des chiffres
+    digitsOnlyRegex.test("12345");                            // true si valide
+    
+    // 7. Vérifier si une chaîne contient uniquement des lettres (sans accent)
+    const lettersOnlyRegex = /^[A-Za-z]+$/;                   // uniquement des lettres a-z ou A-Z
+    lettersOnlyRegex.test("Alex");                            // true si valide
+    
+    // 8. Valider une URL simple (http ou https)
+    const urlRegex = /^(https?:\/\/)?([\w\-]+\.)+[\w\-]+(\/[\w\-./?%&=]*)?$/i; 
+    // ex: https://exemple.com/page
+    urlRegex.test("https://exemple.com/page");                // true si valide
+    
+    // 9. Valider une date au format YYYY-MM-DD (simple)
+    const dateRegex = /^\d{4}-\d{2}-\d{2}$/;                  // ex : 2025-07-03
+    dateRegex.test("2025-07-03");                             // true si valide
+    
+    // 10. Vérifier s’il y a un espace dans une chaîne
+    const spaceRegex = /\s/;                                   // détecte au moins un espace
+    spaceRegex.test("hello world");                            // true si il y a un espace
+    
+    // 11. Trouver une adresse IP IPv4 simple
+    const ipv4Regex = /^(25[0-5]|2[0-4]\d|1\d{2}|[1-9]?\d)(\.(25[0-5]|2[0-4]\d|1\d{2}|[1-9]?\d)){3}$/;
+    ipv4Regex.test("192.168.0.1");                            // true si valide
+    
+    // 12. Extraire les hashtags dans un texte (ex: #fun #js)
+    const hashtagRegex = /#(\w+)/g;                            // global match hashtags
+    "J’adore #JavaScript et #coding".match(hashtagRegex);     // ["#JavaScript", "#coding"]
+    
+    ```
+    
+- Modules ES6+ (organiser ton code en fichiers)
+    
+    ```jsx
+    // Dans module.js
+    export const maFonction = () => {
+      console.log("Hello");
+    };
+    
+    // Dans main.js
+    import { maFonction } from "./module.js";
+    maFonction();  // Affiche "Hello"
+    ```
+    
+
+# LINUX / TERMINAL / BASH
+
+- 📁 Fichiers & dossiers
+    
+    ```bash
+    ls                     # Lister contenu dossier
+    ls -a                  # Inclure fichiers cachés
+    cd dossier/            # Aller dans un dossier
+    cd ..                  # Revenir en arrière
+    pwd                    # Affiche chemin actuel
+    
+    mkdir dossier          # Créer dossier
+    touch fichier.txt      # Créer fichier vide
+    rm fichier.txt         # Supprimer fichier
+    rm -rf dossier/        # Supprimer dossier récursivement
+    
+    ls -lh                      # Liste détaillée avec taille lisible (Ko, Mo)
+    tree                        # Affiche l’arborescence (à installer)
+    ```
+    
+- 📦 Copier / Déplacer / Renommer
+    
+    ```bash
+    cp fichier.txt copie.txt       # Copier fichier
+    cp -r dossier/ copie/          # Copier un dossier entier
+    mv fichier dossier/            # Déplacer fichier
+    mv ancien.txt nouveau.txt      # Renommer fichier
+    rsync -av source/ dest/     # Synchroniser dossiers (copie efficace)
+    ```
+    
+- 🔐 Permissions / Exécution
+    
+    ```bash
+    chmod +x script.sh             # Rendre exécutable
+    chown user:group fichier       # Changer propriétaire
+    ./script.sh                    # Exécuter script bash
+    chmod 755 fichier           # rwxr-xr-x : propriétaire full, groupe + autres lecture/exec
+    chmod 644 fichier           # rw-r--r-- : lecture/écriture propriétaire, lecture autres
+    ```
+    
+- 🔎 Recherche & fichiers
+    
+    ```bash
+    grep "mot" fichier.txt         # Rechercher mot
+    find . -name "*.js"            # Trouver fichiers JS
+    grep -r "mot" ./            # Recherche récursive dans dossier
+    ```
+    
+- 🌐 Réseau & transfert
+    
+    ```bash
+    ping google.com                # Tester connexion
+    curl https://site.com          # Requête HTTP simple
+    wget https://site.com/fichier # Télécharger fichier HTTP
+    scp fichier user@host:/chemin # Copier fichier vers serveur distant (SSH)
+    ```
+    
+- 📦 Archive / compression
+    
+    ```bash
+    tar -czf archive.tar.gz dossier/   # Compresser
+    tar -xzf archive.tar.gz            # Décompresser
+    
+    ```
+    
+- 🧠 Processus
+    
+    ```bash
+    ps aux                     # Liste des processus
+    kill -9 PID                # Tuer un processus
+    top                        # Surveillance système en direct
+    htop                        # Version améliorée de top (à installer)
+    ```
+    
+
+# ⚛️ REACT
+
+- Supprimer Node module et package
+    
+    ```jsx
+    rm -rf node_modules package-lock.json
+    ```
+    
+- Réinstaller dépendance
+    
+    ```jsx
+    npm i
+    ```
+    
+- Générer une Secret key
+    
+    ```jsx
+    node -e "const crypto = require('crypto'); console.log(crypto.randomBytes(64).toString('hex'))"
+    ```
+    
+
+# ⚛️ REACT HOOKS
+
+- 📦 État & effets
+    
+    ```jsx
+    const [val, setVal] = useState("");     // État local
+    useEffect(() => {}, []);                // Code au chargement
+    useLayoutEffect(() => {}, []);  // Comme useEffect mais bloque le rendu jusqu’à exécution
+    useDebugValue(value);           // Pour afficher une valeur dans React DevTools (debug)
+    ```
+    
+- 📍 Références & mémoire
+    
+    ```jsx
+    const inputRef = useRef(null);          // Référencer un élément
+    const total = useMemo(() => ..., [val]); // Mémoriser un calcul
+    const cb = useCallback(() => ..., []);  // Mémoriser une fonction
+    
+    ```
+    
+- 🌐 Contexte & Reducer
+    
+    ```jsx
+    const value = useContext(UserContext);  // Accès au contexte global
+    const [state, dispatch] = useReducer(reducer, init); // Gestion d'état complexe
+    ```
+    
+
+# REACT NATIVE - EXPO GO
+
+- Expo Go installation
+    
+    ```bash
+    npx expo start                   # Démarrer Expo Go (serveur local)
+    npx expo start --tunnel          # Partager en ligne (tunnel)
+    npx expo start --tunnel -c       # Tunnel + vider cache
+    npx expo start --android         # Démarrer Android
+    npx expo start --tunnel --android # Tunnel + Android
+    npx expo start --clear           # Vider cache uniquement
+    npm start -- --reset-cache       # Reset cache avec npm
+    npx expo start --dev-client      # Mode développement avec dev client
+    npx expo doctor                  # Vérifier la config Expo
+    npx expo install                 # Installer dépendances Expo
+    npx expo optimize                # Optimiser assets
+    npx expo publish                 # Publier assets
+    ```
+    
+- Expo Go vider cache + réinstallation
+    
+    ```bash
+    rm -rf node_modules              # Supprimer node_modules
+    rm package-lock.json             # Supprimer lockfile
+    npm i                           # Réinstaller les dépendances
+    npx expo start -c                # Démarrer avec cache vidé
+    ```
+    
+- Création du fichier APK
+    
+    ```bash
+    npm install -g eas-cli           # Installer EAS CLI (une fois)
+    npx eas login                   # Se connecter Expo (une fois)
+    npx eas build:configure          # Configurer projet (une fois)
+    npx eas build --platform android --profile development   # Build APK dev
+    ```
+    
+- **Mise à jour en ligne (pour corriger des bugs)**
+    
+    ```bash
+    # 1. Installer EAS CLI (si pas déjà fait)
+    npm install -g eas-cli
+    
+    # 2. Se connecter à Expo (si pas déjà fait)
+    npx eas login
+    
+    # 3. Configurer le projet (si pas déjà fait)
+    npx eas build:configure
+    
+    # 4. Créer un build initial (UNE SEULE FOIS)
+    npx eas build --platform android --profile production
+    
+    # 5. Mettre à jour en ligne (POUR CHAQUE CORRECTION) 
+    npx eas update --branch production --message "profil"
+    ```
+    
+- Commande pour Android Studio
+    
+    ```bash
+    # 1. Générer le projet Android natif
+    npx expo prebuild --platform android
+    
+    # 2. Ouvrir dans Android Studio
+    npx expo run:android --android
+    
+    # 3. Nettoyer le projet Android
+    npx expo prebuild --platform android --clean
+    
+    # 4. Générer avec configuration spécifique
+    npx expo prebuild --platform android --config app.config.js
+    
+    # 5. Build debug avec Gradle
+    ./gradlew assembleDebug
+    
+    # 6. Build release avec Gradle
+    ./gradlew assembleRelease
+    
+    # 7. Installer l'APK sur l'appareil
+    ./gradlew installDebug
+    
+    # 8. Nettoyer le build
+    ./gradlew clean
+    
+    # 9. Voir les tâches disponibles
+    ./gradlew tasks
+    
+    # 10. Build bundle pour Play Store
+    ./gradlew bundleRelease
+    ```
+    
+
+# 🗃️ SQL
+
+- 📂 Connexion & BDD
+    
+    ```sql
+    mysql -u root -p               -- Connexion MySQL
+    psql -U postgres               -- Connexion Postgres
+    CREATE DATABASE nom;           -- Créer BDD
+    USE nom;                       -- Sélectionner
+    
+    ```
+    
+- 🏗️ Création de table & insertion
+    
+    ```sql
+    CREATE TABLE users (...);      -- Créer une table
+    INSERT INTO users (...) VALUES (...); -- Ajouter une ligne
+    ```
+    
+- 🔐 Contraintes / Intégrité
+    
+    ```sql
+    PRIMARY KEY;           -- Identifiant unique d’une table
+    FOREIGN KEY;           -- Lien vers clé primaire d’une autre table
+    UNIQUE;                -- Valeur unique dans la colonne
+    NOT NULL;              -- Valeur obligatoire, pas de NULL autorisé
+    DEFAULT valeur;        -- Valeur par défaut si non précisée
+    ```
+    
+- 🔄 Gestion des transactions / Atomicité
+    
+    ```sql
+    START TRANSACTION;                    -- Début de transaction
+    UPDATE comptes SET solde = solde - 100 WHERE id = 1;
+    UPDATE comptes SET solde = solde + 100 WHERE id = 2;
+    COMMIT;                             -- Valide les changements
+    ROLLBACK;                           -- Annule la transaction (en cas d’erreur)
+    ```
+    
+- 🔐 Contraintes / Intégrité
+    
+    ```sql
+    PRIMARY KEY;           -- Identifiant unique d’une table
+    FOREIGN KEY;           -- Lien vers clé primaire d’une autre table
+    UNIQUE;                -- Valeur unique dans la colonne
+    NOT NULL;              -- Valeur obligatoire, pas de NULL autorisé
+    DEFAULT valeur;        -- Valeur par défaut si non précisée
+    ```
+    
+- 📈 Optimisation / Performance
+    
+    ```sql
+    CREATE INDEX idx_nom ON pays(nom);    -- Crée un index sur la colonne 'nom' pour accélérer les recherches
+    DROP INDEX idx_nom ON pays;           -- Supprime cet index
+    ```
+    
+- 💣 Suppression
+    
+    ```sql
+    DROP TABLE users;
+    DROP DATABASE nom;
+    
+    ```
+    
+- Types / Structure de données
+    
+    ```sql
+    -- 🏷️ Types de données courants
+    INT, VARCHAR(255), TEXT, DATE, BOOLEAN, FLOAT, DOUBLE;
+    ```
+    
+- Lecture de données (SELECT)
+    
+    ```sql
+        -- Voir tout
+        SELECT * FROM pays;
+        
+        -- Voir certaines colonnes
+        SELECT nom, population FROM pays;
+        
+        -- Avec condition
+        SELECT nom FROM pays WHERE population > 100000000;
+    ```
+    
+- Ajout de données (INSERT)
+    
+    ```sql
+        -- Ajouter un pays
+        INSERT INTO pays (nom, code_iso, population) 
+        VALUES ('Monaco', 'MC', 39000);
+    
+    ```
+    
+- Modification de données (UPDATE)
+    
+    ```sql
+      -- Changer la population
+        UPDATE pays SET population = 70000000 WHERE nom = 'France';
+    ```
+    
+- Suppression de données (DELETE)
+    
+    ```sql
+     -- Supprimer un pays
+        DELETE FROM pays WHERE nom = 'Atlantide';
+    ```
+    
+- Jointures entre tables (JOIN)
+    
+    ```sql
+    -- Voir pays et leurs capitales
+    SELECT pays.nom, capitales.nom 
+    FROM pays 
+    JOIN capitales ON pays.id = capitales.id_pays;
+    
+    -- 🔗 Types de jointures
+    -- INNER JOIN : récupère uniquement les correspondances dans les deux tables
+    -- LEFT JOIN  : récupère toutes les lignes de gauche + correspondances droite (NULL sinon)
+    -- RIGHT JOIN : récupère toutes les lignes de droite + correspondances gauche (NULL sinon)
+    
+    SELECT p.nom, c.nom 
+    FROM pays p
+    LEFT JOIN capitales c ON p.id = c.id_pays;
+    
+    SELECT p.nom, c.nom 
+    FROM pays p
+    RIGHT JOIN capitales c ON p.id = c.id_pays;
+    
+    ```
+    
+- Fonctions d\'agrégation
+    
+    ```sql
+     -- Compter
+        SELECT COUNT(*) FROM pays;
+        
+        -- Moyenne
+        SELECT AVG(population) FROM pays;
+        
+        -- Plus grand/petit
+        SELECT MAX(population), MIN(population) FROM pays;
+    ```
+    
+- Tri et limitation
+    
+    ```sql
+     -- Trier (A→Z)
+        SELECT nom FROM pays ORDER BY nom;
+        
+        -- Trier (Z→A)
+        SELECT nom FROM pays ORDER BY nom DESC;
+        
+        -- Les 5 premiers
+        SELECT nom FROM pays LIMIT 5;
+    ```
+    
+- Recherche et filtrage
+    
+    ```sql
+       -- Commence par 'F'
+        SELECT nom FROM pays WHERE nom LIKE 'F%';
+        
+        -- Entre deux valeurs
+        SELECT nom FROM pays WHERE population BETWEEN 10000000 AND 50000000;
+    ```
+    
+- Groupement de données
+    
+    ```sql
+      -- Nombre de pays par continent
+        SELECT continent, COUNT(*) 
+        FROM pays 
+        GROUP BY continent;
+    ```
+    
+- Alias (renommage)
+    
+    ```sql
+      -- Donner un nom plus court
+        SELECT capitales.nom AS capitale, pays.nom AS pays_nom
+        FROM pays 
+        JOIN capitales ON pays.id = capitales.id_pays;
+        
+        -- Raccourcir les noms de tables
+        SELECT p.nom, c.nom 
+        FROM pays p
+        JOIN capitales c ON p.id = c.id_pays;
+    ```
+    
+- Suppression des doublons (DISTINCT)
+    
+    ```sql
+      -- Voir les langues uniques d'Afrique (sans répétition)
+        SELECT DISTINCT l.nom 
+        FROM langues l
+        JOIN pays_langues pl ON l.id = pl.id_langue
+        JOIN pays p ON pl.id_pays = p.id
+        WHERE p.continent = 'Afrique';
+    ```
+    
+- Sous requêtes
+    
+    ```sql
+     -- Pays d'Europe avec sous-requête
+        SELECT nom 
+        FROM pays 
+        WHERE id_continent = (
+            SELECT id FROM continents WHERE nom = 'Europe'
+        );
+        
+        -- Insertion avec sous-requête
+        INSERT INTO capitales (nom, id_pays) 
+        VALUES ('Berne', (SELECT id FROM pays WHERE nom = 'Suisse'));
+    ```
+    
+- Fonctions avancées
+    
+    ```sql
+        -- Arrondir un nombre
+        SELECT ROUND(AVG(population)) FROM pays;
+        
+        -- Filtrer après GROUP BY
+        SELECT continent, COUNT(*) 
+        FROM pays 
+        GROUP BY continent 
+        HAVING COUNT(*) > 5;
+    ```
+    
+- # Aide-mémoire
+    
+    ```sql
+    **💡 Astuce** : Commence toujours par `SELECT * FROM nom_table;` pour voir ce qu'il y a dans ta table !
+    
+    ## Les 4 actions principales à retenir :
+    1. **SELECT** = Lire/Voir
+    2. **INSERT** = Ajouter 
+    3. **UPDATE** = Modifier
+    4. **DELETE** = Supprimer
+    
+    ## Ordre des mots dans une requête :
+    ```sql
+    SELECT ...
+    FROM ...
+    WHERE ...
+    ORDER BY ...
+    LIMIT ...
+    ```
+
+    # CDA 2025 (Apprenant)
+
+## JavaScript
+
+[EXO JS](https://www.notion.so/EXO-JS-22ad500055d681f19555dd84db4a62a7?pvs=21)
+
+[Requête HTTP - Async Await - bloc Try Catch Finally - le DOM](https://www.notion.so/Requ-te-HTTP-Async-Await-bloc-Try-Catch-Finally-le-DOM-22ad500055d681ad8402c452c565f717?pvs=21)
+
+## React
+
+[Introduction à React](https://www.notion.so/Introduction-React-22ad500055d681b7aed1ff948b04dc14?pvs=21)
+
+[Explication de la structure](https://www.notion.so/Explication-de-la-structure-22ad500055d681cd82ffeea59215dd3a?pvs=21)
+
+[Comment fonctionne React ?](https://www.notion.so/Comment-fonctionne-React-22ad500055d68152a325eca131f95db7?pvs=21)
+
+[Css & Sass avec React](https://www.notion.so/Css-Sass-avec-React-22ad500055d681e3a8bce3c32fb8cb47?pvs=21)
+
+[Tailwind & React](https://www.notion.so/Tailwind-React-22ad500055d681e2bd57ed5c3bcab89c?pvs=21)
+
+[React - Les listes](https://www.notion.so/React-Les-listes-22ad500055d681a294c0c714804aeb1a?pvs=21)
+
+[React - le rendu conditionnel](https://www.notion.so/React-le-rendu-conditionnel-22ad500055d68191a66ff231d25d9775?pvs=21)
+
+[React - cas d’utilisation de useState](https://www.notion.so/React-cas-d-utilisation-de-useState-22ad500055d681f2ab11f57d26959d14?pvs=21)
+
+[Différentes façons d’invoquer une fonction](https://www.notion.so/Diff-rentes-fa-ons-d-invoquer-une-fonction-22ad500055d6816b8aa5e30fe3ebb570?pvs=21)
+
+[Modification des tableaux et des objets avec useState](https://www.notion.so/Modification-des-tableaux-et-des-objets-avec-useState-22ad500055d68172b9dcf8d124c94774?pvs=21)
+
+[Formulaire de base](https://www.notion.so/Formulaire-de-base-22ad500055d6819f977bf6e317351dd6?pvs=21)
+
+[Le hook useEffect](https://www.notion.so/Le-hook-useEffect-22ad500055d681b4a05cc4a04282b208?pvs=21)
+
+[Le contexte avec React](https://www.notion.so/Le-contexte-avec-React-22ad500055d681388467e2b791e97eca?pvs=21)
+
+[Validation des entrées](https://www.notion.so/Validation-des-entr-es-22ad500055d681f99bb5e772fd008d78?pvs=21)
+
+[Formulaire dynamique](https://www.notion.so/Formulaire-dynamique-22ad500055d6811bbe7bce24262d3e7b?pvs=21)
+
+[Le routing avec React](https://www.notion.so/Le-routing-avec-React-22ad500055d68173b998e795e6648c53?pvs=21)
+
+[Le Dark Mode avec Tailwind](https://www.notion.so/Le-Dark-Mode-avec-Tailwind-22ad500055d6810b8bdedfc5e86861b2?pvs=21)
+
+[Les tests unitaires](https://www.notion.so/Les-tests-unitaires-22ad500055d68188b364f2467151f349?pvs=21)
+
+[Web Socket - mise en place frontend](https://www.notion.so/Web-Socket-mise-en-place-frontend-22ad500055d68139b4cbc6e50a884943?pvs=21)
+
+## Exo React
+
+[Exo Condition - hook useState - onClick](https://www.notion.so/Exo-Condition-hook-useState-onClick-22ad500055d681f4892ec037cfbb112f?pvs=21)
+
+[Exo - utilisation du useState](https://www.notion.so/Exo-utilisation-du-useState-22ad500055d6812182f8e37f0b6eade0?pvs=21)
+
+[Exo useState - Tableaux et objets](https://www.notion.so/Exo-useState-Tableaux-et-objets-22ad500055d68198b214d8a2ca0aabc9?pvs=21)
+
+[React → Forms & Hook](https://www.notion.so/React-Forms-Hook-22ad500055d6810daedefd7dc29b4c82?pvs=21)
+
+[Correction Exo Hook Form](https://www.notion.so/Correction-Exo-Hook-Form-22ad500055d681cd94e8cae275eaa687?pvs=21)
+
+[Exo Context](https://www.notion.so/Exo-Context-22ad500055d68102a695f9f573217a46?pvs=21)
+
+## Node
+
+[Introduction à Node - Express et au routing](https://www.notion.so/Introduction-Node-Express-et-au-routing-22ad500055d68178b85cf5d47ecda5fb?pvs=21)
+
+[Connexion à la base de données, mongoose et Liaison front-back](https://www.notion.so/Connexion-la-base-de-donn-es-mongoose-et-Liaison-front-back-22ad500055d681d8aac6e0e637be932c?pvs=21)
+
+[Json Web Token (JWT)](https://www.notion.so/Json-Web-Token-JWT-22ad500055d681559702de02872d2a07?pvs=21)
+
+[Envoi de mail - Inscription](https://www.notion.so/Envoi-de-mail-Inscription-22ad500055d681ea85eafa36dd4f9e3c?pvs=21)
+
+[Les middlewares](https://www.notion.so/Les-middlewares-22ad500055d6811aaaa6f05467b1248d?pvs=21)
+
+[Déploiement full-stack avec Render](https://www.notion.so/D-ploiement-full-stack-avec-Render-22ad500055d681b99bfcf81222d29d18?pvs=21)
+
+[Web Socket - Mise en place Serveur - Authentification - Cloudinary](https://www.notion.so/Web-Socket-Mise-en-place-Serveur-Authentification-Cloudinary-22ad500055d68127ab2cd9bd39e284b5?pvs=21)
+
+## Conception
+
+[Cas détaillés & UserStories](https://www.notion.so/Cas-d-taill-s-UserStories-22ad500055d681a8bb62cd291d8a8a6f?pvs=21)
+
+[Initiation à la méthode SCRUM](https://www.notion.so/Initiation-la-m-thode-SCRUM-22ad500055d6817eb81af4061968af3c?pvs=21)
+
+[Guide complet du cahier des charges pour un projet Web](https://www.notion.so/Guide-complet-du-cahier-des-charges-pour-un-projet-Web-22ad500055d68197a9a7f40eea837f54?pvs=21)
+
+[Diagramme UML - cas d’utilisation](https://www.notion.so/Diagramme-UML-cas-d-utilisation-22ad500055d68145a7cacfdcdb4c1318?pvs=21)
+
+[Analyser les besoins en base de données.](https://www.notion.so/Analyser-les-besoins-en-base-de-donn-es-22ad500055d68179bf4cd7da06b41a22?pvs=21)
+
+[Git](https://www.notion.so/Git-22ad500055d6812f8b15d7e3086fbab4?pvs=21)
+
+## Révision
+
+[Révision 25 mars](https://www.notion.so/R-vision-25-mars-22ad500055d6813c8ba8f78f01ba6710?pvs=21)
+
+[Révision 31 mars](https://www.notion.so/R-vision-31-mars-22ad500055d681d59036e0912a1bab98?pvs=21)
+
+[Révision Backend](https://www.notion.so/R-vision-Backend-22ad500055d681d89836c555e399d690?pvs=21)
+
+## Evaluation
+
+[Evaluation React & Tailwind](https://www.notion.so/Evaluation-React-Tailwind-22ad500055d681a3ab55c615b6117490?pvs=21)
+
+[Correction Tailwind](https://www.notion.so/Correction-Tailwind-22ad500055d681f19b92ed1f36fc2f46?pvs=21)
+
+[Evaluation Web - SQL](https://www.notion.so/Evaluation-Web-SQL-22ad500055d681c29a05cd3d60b02792?pvs=21)
+
+## React Native
+
+[Les bases](https://www.notion.so/Les-bases-22ad500055d681b69fb4cac646aea7fa?pvs=21)
+
+[Le Design System](https://www.notion.so/Le-Design-System-22ad500055d68187a06cd3b3b3530817?pvs=21)
+
+[La navigation](https://www.notion.so/La-navigation-22ad500055d6818194c6e1efdbb25562?pvs=21)
+
+[L’état global](https://www.notion.so/L-tat-global-22ad500055d681bfb06bd46ae7d75c6b?pvs=21)
+
+[Les formulaires](https://www.notion.so/Les-formulaires-22ad500055d681acbb00cfdb5995bec3?pvs=21)
+
+[Les requêtes HTTP](https://www.notion.so/Les-requ-tes-HTTP-22ad500055d68195b25de4133ae9d191?pvs=21)
+
+## Full Stack
+
+[Implémentation des Sockets](https://www.notion.so/Impl-mentation-des-Sockets-22ad500055d681dbb6d6cf1d285086e5?pvs=21)
+
+## Base de données
+
+[Le SQL ](https://www.notion.so/Le-SQL-22ad500055d681a38321ea93db9353ea?pvs=21)
