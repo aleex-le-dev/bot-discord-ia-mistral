@@ -1,7 +1,7 @@
 // Configuration du bot Discord avec IA
 module.exports = {
   discord: {
-    intents: ["Guilds", "GuildMessages", "GuildMembers", "MessageContent"],
+    intents: ["Guilds", "GuildMessages"],
   },
   mistral: {
     model: "mistral-small-latest",
