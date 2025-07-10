@@ -401,22 +401,7 @@ client.on("messageCreate", async (message) => {
     // Supprimer le message de chargement et répondre avec la réponse de l'IA
     await loadingMessage.delete();
 
-    // Créer un embed avec la réponse et des suggestions
-    const suggestions = [
-      "💡 **Commandes rapides :** `!blague`, `!citation`, `!quiz`",
-      "🎭 **Change de personnalité :** `!personnalite`",
-      "🎮 **Plus de commandes :** `!menu`",
-      "💭 **Débattez :** `!debat [sujet]`",
-      "📝 **Créez :** `!poeme [sujet]`",
-    ];
-    const randomSuggestion =
-      suggestions[Math.floor(Math.random() * suggestions.length)];
-
-    const embed = createEmbed(
-      "🤖 Réponse IA",
-      response + "\n\n" + randomSuggestion,
-      0x0099ff
-    );
+    const embed = createEmbed("🤖 Réponse IA", response, 0x0099ff);
     message.channel.send({ embeds: [embed] });
 
     // Mettre à jour les stats utilisateur
